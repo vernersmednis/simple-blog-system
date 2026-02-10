@@ -20,7 +20,7 @@ class PostFactory extends Factory
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'title' => fake()->sentence(6),
-            'body' => fake()->paragraphs(3, asText: true),
+            'body' => fake()->paragraphs(10, asText: true),
         ];
     }
 }
