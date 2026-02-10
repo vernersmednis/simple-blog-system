@@ -37,7 +37,7 @@
                             </p>
                             
                             <div class="flex gap-4 text-sm">
-                                <a href="#" class="text-green-600 hover:text-green-800 font-medium">
+                                <a href="{{ route('posts.show', $post) }}" class="text-green-600 hover:text-green-800 font-medium">
                                     {{ __('Read more') }}
                                 </a>
                                 @if($post->user_id === auth()->id())
