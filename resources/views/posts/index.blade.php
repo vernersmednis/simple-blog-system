@@ -18,6 +18,22 @@
 
     <div class="py-12">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+
+            <form method="GET" action="{{ route('posts.index') }}" class="mt-4">
+                <div class="flex">
+                    <x-text-input name="search" value="{{ request('search') }}" placeholder="{{ __('Search posts...') }}" class="flex-1 rounded-l-md border-r-0" />
+                    <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-r-md">
+                        {{ __('Search') }}
+                    </button>
+                </div>
+            </form>
+        
+            @if($posts->hasPages())
+                <div class="mt-6">
+                    {{ $posts->links() }}
+                </div>
+            @endif
+
             @if($posts->count() > 0)
                 <div class="space-y-6">
                     @foreach($posts as $post)
@@ -69,6 +85,12 @@
                     <div class="p-6 text-center text-gray-500">
                         <p>{{ __('No posts have been created yet.') }}</p>
                     </div>
+                </div>
+            @endif
+            
+            @if($posts->hasPages())
+                <div class="mt-6">
+                    {{ $posts->links() }}
                 </div>
             @endif
         </div>
