@@ -34,9 +34,9 @@
                         <x-input-error :messages="$errors->get('categories')" />
                     </div>
 
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <x-primary-button>
                         {{ __('Create Post') }}
-                    </button>
+                    </x-primary-button>
                 </form>
             </div>
         </div>
