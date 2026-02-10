@@ -4,9 +4,11 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('All Posts') }}
             </h2>
-            <a href="{{ route('posts.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                {{ __('Create New Post') }}
-            </a>
+            @auth
+                <a href="{{ route('posts.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    {{ __('Create New Post') }}
+                </a>
+            @endauth
         </div>
     </x-slot>
 
@@ -44,21 +46,23 @@
                                 </p>
                             </div>
                             
-                            <h2 class="text-2xl font-bold text-gray-900 mb-3">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-2">
                                 {{ $post->title }}
                             </h2>
+
+                            @if($post->categories->count() > 0)
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    @foreach($post->categories as $category)
+                                        <span class="inline-block bg-indigo-500/10 text-indigo-700 text-sm font-semibold px-2.5 py-0.5 rounded-full">
+                                            {{ $category->name }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @endif
                             
                             <p class="text-gray-700 mb-4 leading-relaxed">
                                 {{ Str::limit($post->body, 200) }}
                             </p>
-
-                            @if($post->categories->count() > 0)
-                                <div class="mb-4">
-                                    <p class="text-sm text-gray-600">
-                                        {{ __('Categories:') }} {{ $post->categories->pluck('name')->join(', ') }}
-                                    </p>
-                                </div>
-                            @endif
                             
                             <div class="flex gap-4 text-sm">
                                 <a href="{{ route('posts.show', $post) }}" class="text-green-600 hover:text-green-800 font-medium">
