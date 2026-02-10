@@ -14,6 +14,14 @@
                     </p>
                 </div>
 
+                @if($post->categories->count() > 0)
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600">
+                            {{ __('Categories:') }} {{ $post->categories->pluck('name')->join(', ') }}
+                        </p>
+                    </div>
+                @endif
+
                 <div class="text-gray-700 leading-relaxed whitespace-pre-line">
                     {{ $post->body }}
                 </div>

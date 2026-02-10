@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class PostController extends Controller
      */
     public function create(): View
     {
-        return view('posts.create');
+        return view('posts.create', ['categories' => Category::all()]);
     }
 
     /**
@@ -35,13 +36,17 @@ class PostController extends Controller
         $request->validate([
             'title' => ['required', 'string', 'min:3', 'max:255'],
             'body' => ['required', 'string', 'min:10'],
+            'categories' => ['nullable', 'array'],
+            'categories.*' => ['integer', 'exists:categories,id'],
         ]);
 
-        Post::create([
+        $post = Post::create([
             'user_id' => auth()->id(),
             'title' => $request->title,
             'body' => $request->body,
         ]);
+
+        $post->categories()->sync($request->categories ?? []);
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
@@ -51,7 +56,7 @@ class PostController extends Controller
      */
     public function show(Post $post): View
     {
-        $post->load('comments.user');
+        $post->load(['comments.user', 'categories']);
 
         return view('posts.show', ['post' => $post]);
     }
@@ -65,7 +70,7 @@ class PostController extends Controller
             abort(403);
         }
 
-        return view('posts.edit', ['post' => $post]);
+        return view('posts.edit', ['post' => $post, 'categories' => Category::all()]);
     }
 
     /**
@@ -80,12 +85,16 @@ class PostController extends Controller
         $request->validate([
             'title' => ['required', 'string', 'min:3', 'max:255'],
             'body' => ['required', 'string', 'min:10'],
+            'categories' => ['nullable', 'array'],
+            'categories.*' => ['integer', 'exists:categories,id'],
         ]);
 
         $post->update([
             'title' => $request->title,
             'body' => $request->body,
         ]);
+
+        $post->categories()->sync($request->categories ?? []);
 
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
