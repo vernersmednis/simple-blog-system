@@ -73,10 +73,6 @@ class PostController extends Controller
      */
     public function edit(Post $post): View
     {
-        if ($post->user_id !== auth()->id()) {
-            abort(403);
-        }
-
         return view('posts.edit', ['post' => $post, 'categories' => Category::all()]);
     }
 
@@ -85,10 +81,6 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post): RedirectResponse
     {
-        if ($post->user_id !== auth()->id()) {
-            abort(403);
-        }
-
         $request->validate([
             'title' => ['required', 'string', 'min:3', 'max:255'],
             'body' => ['required', 'string', 'min:10'],
@@ -111,10 +103,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post): RedirectResponse
     {
-        if ($post->user_id !== auth()->id()) {
-            abort(403);
-        }
-
         $post->delete();
 
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');

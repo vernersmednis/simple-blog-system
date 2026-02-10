@@ -64,7 +64,7 @@
                                 <a href="{{ route('posts.show', $post) }}" class="text-green-600 hover:text-green-800 font-medium">
                                     {{ __('Read more') }}
                                 </a>
-                                @if($post->user_id === auth()->id())
+                                @can('update', $post)
                                     <a href="{{ route('posts.edit', $post) }}" class="text-blue-600 hover:text-blue-800 font-medium">
                                         {{ __('Edit') }}
                                     </a>
@@ -75,7 +75,7 @@
                                             {{ __('Delete') }}
                                         </button>
                                     </form>
-                                @endif
+                                @endcan
                             </div>
                         </article>
                     @endforeach

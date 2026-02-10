@@ -59,7 +59,7 @@
                                             </p>
                                             <p class="text-gray-800 break-words">{{ $comment->body }}</p>
                                         </div>
-                                        @if($comment->user_id === auth()->id())
+                                        @can('delete', $comment)
                                             <form method="POST" action="{{ route('comments.destroy', $comment) }}" class="ml-4" onsubmit="return confirm('{{ __('Are you sure you want to delete this comment?') }}')">
                                                 @csrf
                                                 @method('DELETE')
@@ -67,7 +67,7 @@
                                                     {{ __('Delete') }}
                                                 </button>
                                             </form>
-                                        @endif
+                                        @endcan
                                     </div>
                                 </div>
                             @endforeach
@@ -81,7 +81,7 @@
                     <a href="{{ route('posts.index') }}" class="text-gray-600 hover:text-gray-800 font-medium">
                         {{ __('← Back to posts') }}
                     </a>
-                    @if($post->user_id === auth()->id())
+                    @can('update', $post)
                         <a href="{{ route('posts.edit', $post) }}" class="text-blue-600 hover:text-blue-800 font-medium">
                             {{ __('Edit') }}
                         </a>
@@ -92,7 +92,7 @@
                                 {{ __('Delete') }}
                             </button>
                         </form>
-                    @endif
+                    @endcan
                 </div>
             </div>
         </div>
