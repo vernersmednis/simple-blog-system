@@ -26,6 +26,13 @@
                         <a href="{{ route('posts.edit', $post) }}" class="text-blue-600 hover:text-blue-800 font-medium">
                             {{ __('Edit') }}
                         </a>
+                        <form method="POST" action="{{ route('posts.destroy', $post) }}" class="inline" onsubmit="return confirm('{{ __('Are you sure you want to delete this post?') }}')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 hover:text-red-800 font-medium">
+                                {{ __('Delete') }}
+                            </button>
+                        </form>
                     @endif
                 </div>
             </div>

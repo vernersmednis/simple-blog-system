@@ -24,8 +24,18 @@
                         <x-input-error :messages="$errors->get('body')" />
                     </div>
 
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        {{ __('Update Post') }}
+                    <div class="flex items-center gap-4">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            {{ __('Update Post') }}
+                        </button>
+                    </div>
+                </form>
+
+                <form method="POST" action="{{ route('posts.destroy', $post) }}" class="mt-4" onsubmit="return confirm('{{ __('Are you sure you want to delete this post?') }}')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        {{ __('Delete Post') }}
                     </button>
                 </form>
             </div>
