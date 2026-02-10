@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -11,7 +12,7 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Post $post)
+    public function store(Request $request, Post $post): RedirectResponse
     {
         $request->validate([
             'body' => ['required', 'string', 'min:2', 'max:2000'],
@@ -28,7 +29,7 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment): RedirectResponse
     {
         if ($comment->user_id !== auth()->id()) {
             abort(403);
