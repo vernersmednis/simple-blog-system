@@ -1,0 +1,51 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('All Posts') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            @if($posts->count() > 0)
+                <div class="space-y-6">
+                    @foreach($posts as $post)
+                        <article class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-b border-gray-200 last:border-b-0">
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-600">
+                                    {{ $post->user->name }} • {{ $post->created_at->format('M d, Y') }}
+                                </p>
+                            </div>
+                            
+                            <h2 class="text-2xl font-bold text-gray-900 mb-3">
+                                {{ $post->title }}
+                            </h2>
+                            
+                            <p class="text-gray-700 mb-4 leading-relaxed">
+                                {{ Str::limit($post->body, 200) }}
+                            </p>
+                            
+                            <div class="flex gap-4 text-sm">
+                                <a href="#" class="text-green-600 hover:text-green-800 font-medium">
+                                    {{ __('Read more') }}
+                                </a>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">
+                                    {{ __('Edit') }}
+                                </a>
+                                <a href="#" class="text-red-600 hover:text-red-800 font-medium">
+                                    {{ __('Delete') }}
+                                </a>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            @else
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-center text-gray-500">
+                        <p>{{ __('No posts have been created yet.') }}</p>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+</x-app-layout>
