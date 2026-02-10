@@ -18,10 +18,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('posts', PostController::class)->except(['index', 'show']);
+    Route::resource('posts', PostController::class)->only(['create', 'store']);
+    Route::resource('posts', PostController::class)->only(['edit', 'update', 'destroy'])->middleware('can:update,post');
 
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
-    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('can:delete,comment');
 
 });
 
