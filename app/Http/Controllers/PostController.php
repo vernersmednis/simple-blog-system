@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index(Request $request): View
     {
-        $posts = Post::with('categories')
+        $posts = Post::with('user', 'categories')
             ->when($request->search, function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%")
                       ->orWhere('body', 'like', "%{$search}%");
@@ -63,7 +63,7 @@ class PostController extends Controller
      */
     public function show(Post $post): View
     {
-        $post->load(['comments.user', 'categories']);
+        $post->load(['user', 'comments.user', 'categories']);
 
         return view('posts.show', ['post' => $post]);
     }
