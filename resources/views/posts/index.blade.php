@@ -40,12 +40,14 @@
                                 <a href="#" class="text-green-600 hover:text-green-800 font-medium">
                                     {{ __('Read more') }}
                                 </a>
-                                <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">
-                                    {{ __('Edit') }}
-                                </a>
-                                <a href="#" class="text-red-600 hover:text-red-800 font-medium">
-                                    {{ __('Delete') }}
-                                </a>
+                                @if($post->user_id === auth()->id())
+                                    <a href="{{ route('posts.edit', $post) }}" class="text-blue-600 hover:text-blue-800 font-medium">
+                                        {{ __('Edit') }}
+                                    </a>
+                                    <a href="#" class="text-red-600 hover:text-red-800 font-medium">
+                                        {{ __('Delete') }}
+                                    </a>
+                                @endif
                             </div>
                         </article>
                     @endforeach

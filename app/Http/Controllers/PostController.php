@@ -55,17 +55,35 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        //
+        if ($post->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        return view('posts.edit', ['post' => $post]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        if ($post->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'title' => ['required', 'string', 'min:3', 'max:255'],
+            'body' => ['required', 'string', 'min:10'],
+        ]);
+
+        $post->update([
+            'title' => $request->title,
+            'body' => $request->body,
+        ]);
+
+        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
     /**
