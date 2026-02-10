@@ -35,6 +35,14 @@
                             <p class="text-gray-700 mb-4 leading-relaxed">
                                 {{ Str::limit($post->body, 200) }}
                             </p>
+
+                            @if($post->categories->count() > 0)
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-600">
+                                        {{ __('Categories:') }} {{ $post->categories->pluck('name')->join(', ') }}
+                                    </p>
+                                </div>
+                            @endif
                             
                             <div class="flex gap-4 text-sm">
                                 <a href="{{ route('posts.show', $post) }}" class="text-green-600 hover:text-green-800 font-medium">
