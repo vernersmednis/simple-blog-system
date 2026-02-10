@@ -1,0 +1,33 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
+class DatabaseSeeder extends Seeder
+{
+    /**
+     * Seed the application's database.
+     */
+    public function run(): void
+    {
+        // Test admin account
+        User::create([
+            'id' => 1,
+            'name' => 'Admin User',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('password')
+        ]);
+
+        $this->call([
+            UserSeeder::class,
+            CategorySeeder::class,
+            PostSeeder::class,
+            CategoryPostSeeder::class,
+            CommentSeeder::class,
+        ]);
+    }
+}
