@@ -1,24 +1,23 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $post->title }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <div class="mb-4">
+                <h1 class="text-5xl font-bold text-gray-900 mb-2">
+                    {{ $post->title }}
+                </h1>
+                <div class="mb-2">
                     <p class="text-sm text-gray-600">
                         {{ $post->user->name }} • {{ $post->created_at->format('M d, Y') }}
                     </p>
                 </div>
 
                 @if($post->categories->count() > 0)
-                    <div class="mb-4">
-                        <p class="text-sm text-gray-600">
-                            {{ __('Categories:') }} {{ $post->categories->pluck('name')->join(', ') }}
-                        </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        @foreach($post->categories as $category)
+                            <span class="inline-block bg-indigo-500/10 text-indigo-700 text-sm font-semibold px-2.5 py-0.5 rounded-full">
+                                {{ $category->name }}
+                            </span>
+                        @endforeach
                     </div>
                 @endif
 
