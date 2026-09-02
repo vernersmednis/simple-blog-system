@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Str;
 
+// Custom fix: PHP 8.5 deprecates the legacy PDO constant name.
+// Prefer the namespaced Pdo\Mysql constant when available,
+// while keeping a fallback for older PHP versions.
+$mysqlSslCaOption = class_exists(\Pdo\Mysql::class)
+    ? \Pdo\Mysql::ATTR_SSL_CA
+    : (defined('PDO::MYSQL_ATTR_SSL_CA') ? PDO::MYSQL_ATTR_SSL_CA : null);
+
 return [
 
     /*
@@ -57,8 +64,9 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
+            // Custom fix: Keep the SSL CA option compatible across PHP versions.
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                $mysqlSslCaOption => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
 
@@ -77,8 +85,9 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
+            // Custom fix: Same compatibility fix for MariaDB connections.
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                $mysqlSslCaOption => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
 
